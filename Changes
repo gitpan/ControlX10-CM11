@@ -57,3 +57,16 @@ Revision history for Perl extension ControlX10::CM11.
 2.03  Wed Sep 29 11:20:15 CDT 1999
 	- Convert to CPAN-approved namespace
 
+2.04  Sun Oct 31 xx:xx:xx CST 1999 <Winter>
+	- released with mh ver 1.87 posted on 11/07/99 (mislabelled as 2.03)
+	- Extended X10 Preset Dim commands are now supported
+
+2.05  Sat Dec 11 16:09:xx CST 1999 <Winter>
+	- released with mh ver 1.90 posted on 12/12/99 (mislabelled as 2.03)
+	- readback of Extended X10 Preset Dim commands is now supported
+
+2.06  Mon Dec 20 11:12:34 CST 1999 <Birthisel>
+	- documentation changes for CPAN posting
+	- update Makefile.PL for improved Win32 install
+	- cleanup misc. debugging patches
+

@@ -10,10 +10,10 @@ use vars qw($OS_win $port %config_parms);
 # Change 1..1 below to 1..last_test_to_print .
 # (It may become useful if the test is moved to ./t subdirectory.)
 
-BEGIN { $| = 1; print "1..90\n"; }
+BEGIN { $| = 1; print "1..98\n"; }
 
 END {print "not ok 1\n" unless $loaded;}
-use ControlX10::CM11 qw( :FUNC 2.03 );
+use ControlX10::CM11 qw( :FUNC 2.06 );
 $loaded = 1;
 print "ok 1\n";
 
@@ -147,16 +147,16 @@ is_ok(send_cm11($serial_port, 'AOFF'));			# 6
 $main::config_parms{debug} = "X10";
 is_ok(send_cm11($serial_port, 'bg'));			# 7
 is_ok($ControlX10::CM11::DEBUG);			# 8
+
+$main::config_parms{debug} = "";
 is_ok(send_cm11($serial_port, 'B-25'));			# 9
+is_ok(send_cm11($serial_port, 'BON'));			# 10
 
 if ($naptime) {
     print "++++ page break\n";
     sleep $naptime;
 }
 
-is_ok(send_cm11($serial_port, 'BON'));			# 10
-
-$main::config_parms{debug} = "";
 is_ok(send_cm11($serial_port, 'B2'));			# 11
 is_zero($ControlX10::CM11::DEBUG);			# 12
 is_ok(send_cm11($serial_port, 'Bl'));			# 13
@@ -205,13 +205,13 @@ is_ok(send_cm11($serial_port, 'id'));			# 43
 is_ok(send_cm11($serial_port, 'PALL_LIGHTS_OFF'));	# 44
 is_ok(send_cm11($serial_port, 'AEXTENDED_CODE'));	# 45
 is_ok(send_cm11($serial_port, 'BHAIL_REQUEST'));	# 46
-is_ok(send_cm11($serial_port, 'CHAIL_ACK'));		# 47
 
 if ($naptime) {
     print "++++ page break\n";
     sleep $naptime;
 }
 
+is_ok(send_cm11($serial_port, 'CHAIL_ACK'));		# 47
 is_ok(send_cm11($serial_port, 'DPRESET_DIM1'));		# 48
 is_ok(send_cm11($serial_port, 'PPRESET_DIM2'));		# 49
 is_ok(send_cm11($serial_port, 'AEXTENDED_DATA'));	# 50
@@ -232,16 +232,16 @@ is_bad(send_cm11($serial_port, 'C-100'));		# 62
 
 is_bad(send_cm11($serial_port, 'A-0'));			# 63
 is_ok(send_cm11($serial_port, 'P+20'));			# 64
-is_ok(send_cm11($serial_port, 'A+30'));			# 65
-is_ok(send_cm11($serial_port, 'B+40'));			# 66
-is_ok(send_cm11($serial_port, 'C+50'));			# 67
-is_ok(send_cm11($serial_port, 'i+60'));			# 68
 
 if ($naptime) {
     print "++++ page break\n";
     sleep $naptime;
 }
 
+is_ok(send_cm11($serial_port, 'A+30'));			# 65
+is_ok(send_cm11($serial_port, 'B+40'));			# 66
+is_ok(send_cm11($serial_port, 'C+50'));			# 67
+is_ok(send_cm11($serial_port, 'i+60'));			# 68
 is_ok(send_cm11($serial_port, 'P+70'));			# 69
 is_ok(send_cm11($serial_port, 'A+80'));			# 70
 is_ok(send_cm11($serial_port, 'B+90'));			# 71
@@ -265,11 +265,26 @@ is_ok(10 == dim_decode_cm11("E9"));			# 82
 is_ok(60 == dim_decode_cm11("N3"));			# 83
 is_ok(50 == dim_decode_cm11("ID"));			# 84
 is_ok(0 == dim_decode_cm11("M5"));			# 85
+
+if ($naptime) {
+    print "++++ page break\n";
+    sleep $naptime;
+}
+
 is_ok(35 == dim_decode_cm11("O4"));			# 86
 is_ok(15 == dim_decode_cm11("C3"));			# 87
 is_ok(75 == dim_decode_cm11("FA"));			# 88
 is_ok(85 == dim_decode_cm11("L9"));			# 89
 is_ok(95 == dim_decode_cm11("P4"));			# 90
+is_ok(send_cm11($serial_port, 'C1&P25'));		# 91
+is_bad(send_cm11($serial_port, 'C&P05'));		# 92
+is_ok(send_cm11($serial_port, 'M4'));			# 93
+## $main::config_parms{debug} = "X10";
+is_ok(send_cm11($serial_port, 'OPRESET_DIM2'));		# 94
+is_bad(send_cm11($serial_port, 'C1&P'));		# 95
+is_bad(send_cm11($serial_port, 'C1&PA5'));		# 96
+is_ok(send_cm11($serial_port, 'C1&P5'));		# 97
+is_bad(send_cm11($serial_port, 'C1&P105'));		# 98
 
 undef $serial_port;
 

@@ -58,6 +58,7 @@ while ($reps-- > 0) {
     print "Sending A1 On OFF\n";
     send_cm11($serial_port, 'A1');
     send_cm11($serial_port, 'AJ');
+    sleep 1;
     send_cm11($serial_port, 'AK');
     sleep 2;
 }

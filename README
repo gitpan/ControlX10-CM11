@@ -1,5 +1,5 @@
 ControlX10::CM11
-VERSION=2.03, 29 September 1999
+VERSION=2.06, 20 December 1999
 
 Hello home automators:
 
@@ -65,7 +65,7 @@ and follows a similar sequence.
 	perl install.pl
 
 Both sequences create install files and directories. The test uses a
-CM11 emulator and does not open real serial port. You can specify an
+CM11 emulator and does not open a real serial port. You can specify an
 optional PAUSE (0..5 seconds) between pages of output. The
 'perl test.pl PAUSE' form works on all OS types. The test will indicate
 if any unexpected errors occur (not ok). Some error and debug messages
@@ -75,6 +75,10 @@ The "eg_cm11.plx" demo is a cross-platform version of a demo previously
 post and included with MisterHouse. It expects an X10 appliance switch
 at address A1. The demo will default to "COM1" on Win32 and "/dev/ttyS0"
 on linux.  It also permits specifying 'perl eg_cm11.plx PORT'.
+
+Extended X10 Preset Dim commands are now supported, if you have the
+CM11 interface and a compatible (LM14A) module. You can send them
+directly, like 'A1&P47' (set unit A1 to Preset level 47, i.e. 75%)
 
 Watch for updates at:
 
