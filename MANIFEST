@@ -2,7 +2,7 @@ CM11.pm
 Changes
 MANIFEST
 Makefile.PL
-test.pl
-eg_cm11.plx
+t/test1.t
+eg/eg_cm11.plx
 README
 README.txt

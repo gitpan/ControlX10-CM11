@@ -2,27 +2,7 @@ use ExtUtils::MakeMaker;
 # See lib/ExtUtils/MakeMaker.pm for details of how to influence
 # the contents of the Makefile that is written.
 
-use vars qw($OS_win);
-my $version = simple_version("CM11.pm");
-
-print <<INTRO;
-
-                     ControlX10::CM11 VERSION $version
-                     Test with:  perl test.pl [0..5]
-
-   The Test sends data to the emulator, does not require a CM11 attached
-
-INTRO
-
-BEGIN {
-        $OS_win = ($^O eq "MSWin32") ? 1 : 0;
-
-        if ($OS_win) {
-            require 5.005;
-        }
-} # End BEGIN
-
-unless ($OS_win) {
+unless ($^O eq "MSWin32") {
     WriteMakefile(
         'NAME'	=> 'ControlX10::CM11',
         'VERSION_FROM' => 'CM11.pm', # finds $VERSION
@@ -33,22 +13,49 @@ unless ($OS_win) {
 
 # On Windows, create substitute scripts for the "make deprived"
 
+require 5.005;
+
 use File::Copy;
 use File::Path;
 use Pod::Html;
 
+my $version = simple_version("CM11.pm");
 my $INST_LIBDIR = "./lib/ControlX10";
-my $INST_FILES = "CM11.pm";
 my $INST_HTMLDIR = "./html/ControlX10";
-my $INST_NAME = "CM11";
+my $INST_FILES = "CM11.pm";
+my $INST_NAME = "ControlX10/CM11";
 my @HTML_FILES = "CM11";
 
-
-print <<INTRO3;
+print <<INTRO;
+                      ControlX10::CM11 VERSION $version
                       No 'Makefile' will be created
+                      Test with:    perl test.pl
                       Install with: perl install.pl
 
-INTRO3
+   The Test sends data to the emulator, does not require a CM11 attached
+
+INTRO
+
+my $dfile = "test.pl";
+unlink $dfile;
+print "Creating new $dfile\n";
+open (DEFAULT, "> $dfile") or die "Can't create $dfile: $!\n";
+
+print DEFAULT <<"TEST4";	# double quotes - need interpolation
+# Created by Makefile.PL
+# $INST_NAME Version $version
+TEST4
+
+print DEFAULT <<'TEST4';	# single quotes - minimize chaacter quoting
+use Test::Harness;
+runtests ("t/test1.t");
+
+print "\nTo run individual tests, type:\n";
+print "    C:\\> perl t/test1.t Page_Pause_Time (0..5)\n";
+print "See README and other documentation for additional information.\n\n";
+TEST4
+
+close DEFAULT;
 
 unless (-d $INST_LIBDIR) {
     File::Path::mkpath([ "$INST_LIBDIR" ],1,0777) or
